@@ -59,6 +59,22 @@ public sealed class CommandApp : ICommandApp
     {
         try
         {
+            if (!args.Any())
+            {
+                var commands = new List<string>
+                {
+                    "help",
+                    "version",
+                };
+
+                var selectedCommand = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("Select command:")
+                        .AddChoices(commands));
+
+                args = new[] { selectedCommand };
+            }
+
             if (!_executed)
             {
                 // Add built-in (hidden) commands.
