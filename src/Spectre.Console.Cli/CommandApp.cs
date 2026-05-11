@@ -61,18 +61,22 @@ public sealed class CommandApp : ICommandApp
         {
             if (!args.Any())
             {
-                var commands = new List<string>
+                var model = CommandModelBuilder.Build(_configurator);
+
+                var commands = model.Commands
+                    .Where(command => !command.IsHidden)
+                    .Select(command => command.Name)
+                    .ToList();
+
+                if (commands.Count > 0)
                 {
-                    "help",
-                    "version",
-                };
+                    var selectedCommand = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .Title("Select command:")
+                            .AddChoices(commands));
 
-                var selectedCommand = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("Select command:")
-                        .AddChoices(commands));
-
-                args = new[] { selectedCommand };
+                    args = new[] { selectedCommand };
+                }
             }
 
             if (!_executed)
