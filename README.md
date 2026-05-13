@@ -1,17 +1,189 @@
-# `Spectre.Console.Cli`
+# Фінальний звіт по проєкту – Spectre.Console.Cli
 
-_[![Spectre.Console CLI NuGet Version](https://img.shields.io/nuget/v/spectre.console.cli.svg?style=flat&label=NuGet%3A%20Spectre.Console.Cli)](https://www.nuget.org/packages/spectre.console.cli)_
+## Дані студента
 
-`Spectre.Console.Cli` is a modern library for parsing command line arguments. While it's extremely opinionated in what it does, it tries to follow established industry conventions, and draws its inspiration from applications you use everyday.
+**ПІБ:** Ілля Котяш  
+**Роль у проєкті:** Розробник  
 
-Detailed instructions for using this library is located on the project website, https://spectreconsole.net
+---
 
-## .NET Foundation
+# Інформація про проєкт
 
-This project is supported by the [.NET Foundation](https://dotnetfoundation.org).
+## Назва проєкту
 
-## License
+Spectre.Console.Cli
 
-Copyright © Patrik Svensson, Phil Scott, Nils Andresen, Cédric Luthi, Frank Ray
+## Власний репозиторій
 
-`Spectre.Console.Cli` is provided as-is under the MIT license. For more information see LICENSE.
+https://github.com/ilyha-kotiash/spectre.console.cli
+
+## Оригінальний репозиторій
+
+https://github.com/spectreconsole/spectre.console.cli
+
+## Обрана GitHub Issue
+
+Issue #35:
+
+Choice menu for all the registered commands
+
+https://github.com/spectreconsole/spectre.console.cli/issues/35
+
+---
+
+# Мета проєкту
+
+Метою проєкту було розширення open-source бібліотеки Spectre.Console.Cli шляхом реалізації інтерактивного меню вибору команд.
+
+При запуску CLI-застосунку без аргументів система повинна:
+
+- визначити відсутність аргументів;
+- отримати список зареєстрованих команд;
+- відфільтрувати приховані службові команди;
+- показати користувачу інтерактивне меню;
+- передати вибрану команду у стандартний механізм виконання.
+
+---
+
+# Використані технології
+
+- C#
+- .NET
+- Spectre.Console
+- Spectre.Console.Cli
+- JetBrains Rider
+- Git
+- GitHub
+
+---
+
+# Виконані етапи роботи
+
+## Етап 1 — Підготовка середовища
+
+Виконано:
+
+- створення власного fork репозиторію;
+- clone репозиторію на локальний комп’ютер;
+- відкриття solution у JetBrains Rider;
+- перевірка локальної збірки.
+
+Результат:
+
+Build succeeded.
+
+---
+
+## Етап 2 — Аналіз архітектури
+
+Виконано:
+
+- аналіз GitHub issue №35;
+- дослідження структури проєкту;
+- пошук точки входу CLI-застосунку;
+- аналіз механізму запуску команд.
+
+Проаналізовані класи:
+
+- `CommandApp`
+- `CommandModel`
+- `CommandModelBuilder`
+- `CommandExecutor`
+
+Результат:
+
+Архітектура запуску команд повністю проаналізована.
+
+---
+
+## Етап 3 — Реалізація функціоналу
+
+Реалізовано:
+
+- перевірку запуску без аргументів;
+- інтерактивне меню вибору команд;
+- динамічне отримання зареєстрованих команд;
+- фільтрацію прихованих команд;
+- інтеграцію у існуючий pipeline виконання.
+
+Реалізований код:
+
+```csharp
+var model = CommandModelBuilder.Build(_configurator);
+
+var commands = model.Commands
+    .Where(command => !command.IsHidden)
+    .Select(command => command.Name)
+    .ToList();
+```
+
+Результат:
+
+Функціональні вимоги issue №35 реалізовані повністю.
+
+---
+
+# GitHub commits
+
+## Commit 1
+
+`Add command selection menu`
+
+## Commit 2
+
+`Use registered commands in selection menu`
+
+---
+
+# Тестування
+
+Було виконано:
+
+- перевірку локальної збірки;
+- перевірку сумісності зі старою логікою запуску;
+- перевірку інтеграції нового функціоналу.
+
+Результат:
+
+Build succeeded  
+Errors: 0  
+Warnings: 0  
+
+---
+
+# Фінальний результат
+
+GitHub issue №35 була успішно реалізована.
+
+Поточна логіка роботи:
+
+При запуску CLI-застосунку без аргументів:
+
+- список команд формується динамічно;
+- приховані команди не відображаються;
+- користувачу показується меню вибору;
+- вибрана команда запускається через існуючий механізм виконання.
+
+Існуюча архітектура бібліотеки не була порушена.
+
+---
+
+# Можливі подальші покращення
+
+- додавання unit-тестів;
+- створення pull request в оригінальний репозиторій;
+- покращення UX інтерактивного меню.
+
+---
+
+# Загальні витрати часу
+
+Загальний обсяг роботи:
+
+**90 годин**
+
+---
+
+# Висновок
+
+У рамках проєкту було успішно виконано аналіз production-коду, реалізовано новий функціонал в існуючій open-source бібліотеці, збережено сумісність з існуючою архітектурою, використано Git workflow, а обрана GitHub issue була функціонально завершена.
