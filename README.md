@@ -1,4 +1,4 @@
-# Фінальний звіт по проєкту – Spectre.Console.Cli
+#звіт по проєкту – Spectre.Console.Cli
 
 ## Дані студента
 
